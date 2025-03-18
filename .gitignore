@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Virtual Environments
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# IDEs
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Pytest
+.cache
+*.cover
+*.log
+*.egg-info/
+dist/
+build/
+
+# Alembic
+alembic/versions/*.pyc
+alembic/versions/*.pyo
+
+# OS generated files
+.DS_Store
+Thumbs.db
