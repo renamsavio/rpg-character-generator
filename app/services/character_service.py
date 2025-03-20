@@ -12,8 +12,8 @@ class CharacterService:
         # Cria um novo personagem a partir dos dados recebidos
         character = CharacterDB(
             name=character_data["name"],
-            race=character_data["race"],
-            character_class=character_data["character_class"],
+            race=Race(character_data["race"]),
+            character_class=CharacterClass(character_data["character_class"]),
             level=character_data["level"],
             attributes={
                 "strength": character_data["attributes"]["strength"],

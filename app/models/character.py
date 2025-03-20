@@ -41,8 +41,8 @@ class CharacterDB(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
-    race = SQLAlchemyEnum(Race)
-    character_class = SQLAlchemyEnum(CharacterClass)
+    race = Column(SQLAlchemyEnum(Race))
+    character_class = Column(SQLAlchemyEnum(CharacterClass))
     level = Column(Integer)
     attributes = Column(JSON)  # Certifique-se de que esta coluna está definida
     background = Column(String)
@@ -51,12 +51,12 @@ class CharacterDB(Base):
 class Character(BaseModel):
     id: Optional[int] = None
     name: str
-    race: str  # Usando Enum do SQLAlchemy
-    character_class: str 
+    race: Race  # Usando Enum do SQLAlchemy
+    character_class: CharacterClass 
     level: int
     attributes: Attributes  # Usando a classe Attributes
     background: str
     personality_traits: List[str]  # Mantido como lista de strings
 
     class Config:
-        orm_mode = True  # Permite que o Pydantic converta o modelo SQLAlchemy em um modelo Pydantic
+        from_attributes = True  # Permite que o Pydantic converta o modelo SQLAlchemy em um modelo Pydantic
