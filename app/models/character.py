@@ -60,3 +60,21 @@ class Character(BaseModel):
 
     class Config:
         from_attributes = True  # Permite que o Pydantic converta o modelo SQLAlchemy em um modelo Pydantic
+
+class RaceDB(Base):
+    __tablename__ = "races"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique=True)
+    
+    class Config:
+        from_attributes = True
+
+class CharacterClassDB(Base):
+    __tablename__ = "character_classes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String, unique=True)
+    
+    class Config:
+        from_attributes = True
