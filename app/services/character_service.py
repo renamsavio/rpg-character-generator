@@ -9,31 +9,6 @@ Base.metadata.create_all(bind=engine)
 class CharacterService:
     
     @staticmethod
-    def generate_character(character_data: dict, db: Session) -> CharacterDB:
-        # Cria um novo personagem a partir dos dados recebidos
-        character = CharacterDB(
-            name=character_data["name"],
-            race=Race(character_data["race"]),
-            character_class=CharacterClass(character_data["character_class"]),
-            level=character_data["level"],
-            attributes={
-                "strength": character_data["attributes"]["strength"],
-                "dexterity": character_data["attributes"]["dexterity"],
-                "constitution": character_data["attributes"]["constitution"],
-                "intelligence": character_data["attributes"]["intelligence"],
-                "wisdom": character_data["attributes"]["wisdom"],
-                "charisma": character_data["attributes"]["charisma"],
-            },
-            background=character_data["background"],
-            personality_traits=character_data["personality_traits"]
-        )
-
-        db.add(character)
-        db.commit()
-        db.refresh(character)
-        return character
-
-    @staticmethod
     def get_characters(db: Session) -> list:
         return db.query(CharacterDB).all()
 
@@ -73,3 +48,15 @@ class CharacterService:
         db.refresh(new_character)
 
         return new_character
+
+    @staticmethod
+    def get_races(db: Session) -> list:
+        # Consultar todas as raças e retornar apenas os nomes
+        return [race.name for race in db.query(RaceDB).all()]
+    
+    @staticmethod
+    def get_classes(db: Session) -> list:
+        # Consultar todas as classes e retornar apenas os nomes
+        return [classes.name for classes in db.query(CharacterClassDB).all()]
+    
+    
