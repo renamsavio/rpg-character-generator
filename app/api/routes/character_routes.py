@@ -39,3 +39,9 @@ async def list_class_names(db: Session = Depends(get_db)):
 async def list_race_names(db: Session = Depends(get_db)):
     """Lista todos os nomes das raças disponíveis sem incluir o ID"""
     return CharacterService.get_races(db)
+
+@router.delete("/characters/{character_id}", response_model=dict)
+async def remove_character(character_id: int, db: Session = Depends(get_db)):
+    """Remove um personagem pelo ID"""
+    CharacterService.delete_character(character_id, db)
+    return {"detail": "Personagem removido com sucesso"}

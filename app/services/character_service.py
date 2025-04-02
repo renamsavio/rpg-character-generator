@@ -59,4 +59,15 @@ class CharacterService:
         # Consultar todas as classes e retornar apenas os nomes
         return [classes.name for classes in db.query(CharacterClassDB).all()]
     
+    @staticmethod
+    def delete_character(character_id: int, db: Session) -> None:
+        # Consultar o personagem pelo ID
+        character = db.query(CharacterDB).filter(CharacterDB.id == character_id).first()
+        if character is None:
+            raise HTTPException(status_code=404, detail="Personagem não encontrado")
+
+        # Deletar o personagem
+        db.delete(character)
+        db.commit()
+    
     
