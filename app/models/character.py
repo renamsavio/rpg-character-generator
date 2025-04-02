@@ -89,3 +89,27 @@ class CharacterClassDB(Base):
     characters = relationship("CharacterDB", back_populates="character_class")
     class Config:
         from_attributes = True
+
+class CharacterUpdate(BaseModel):
+    name: Optional[str] = None               
+    race: object = None               
+    class_type: Optional[str] = None         
+    level: Optional[int] = None              
+    attributes: Optional[dict] = None        
+    background: Optional[str] = None         
+    personality_traits: Optional[List[str]] = None
+    
+    class Config:
+        from_attributes = True
+        
+        @classmethod
+        
+        def from_orm(cls, obj):
+        
+            instance = super().from_orm(obj)
+        
+            instance.race = obj.race.name if obj.race else None
+        
+            instance.character_class = obj.character_class.name if obj.character_class else None
+    
+            return instance

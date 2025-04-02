@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Query, Depends
 from sqlalchemy.orm import Session
 from app.services.character_service import CharacterService
-from app.models.character import Character as Character, CharacterResponse
+from app.models.character import Character as Character, CharacterResponse, CharacterUpdate
 from typing import List
 from app.core.database import SessionLocal
 
@@ -45,3 +45,9 @@ async def remove_character(character_id: int, db: Session = Depends(get_db)):
     """Remove um personagem pelo ID"""
     CharacterService.delete_character(character_id, db)
     return {"detail": "Personagem removido com sucesso"}
+
+@router.put("/characters/{character_id}", response_model=CharacterResponse)
+async def edit_character(character_id: int, updated_character: CharacterUpdate, db: Session = Depends(get_db)):
+    """Edita um personagem existente pelo ID"""
+    character = CharacterService.update_character(character_id, updated_character, db)
+    return CharacterResponse.from_orm(character)

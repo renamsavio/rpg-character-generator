@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from fastapi import HTTPException
-from app.models.character import CharacterDB, RaceDB, CharacterClassDB, Character
+from app.models.character import CharacterDB, RaceDB, CharacterClassDB, Character, CharacterUpdate
 from app.core.database import SessionLocal, engine, Base
 
 # Cria as tabelas no banco de dados
@@ -69,5 +69,20 @@ class CharacterService:
         # Deletar o personagem
         db.delete(character)
         db.commit()
+    
+    @staticmethod
+    def update_character(character_id: int, updated_character: CharacterUpdate, db: Session) -> CharacterDB:
+        # Consultar o personagem pelo ID
+        character = db.query(CharacterDB).filter(CharacterDB.id == character_id).first()
+        if character is None:
+            raise HTTPException(status_code=404, detail="Personagem não encontrado")
+
+        # Atualizar os atributos do personagem com os dados fornecidos
+        update_data = updated_character.dict(exclude_unset=True)  # Pega apenas os campos que foram passados
+        for key, value in update_data.items():
+            setattr(character, key, value)  # Atualiza o atributo correspondente
+
+        db.commit()
+        return character
     
     
